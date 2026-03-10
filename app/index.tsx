@@ -1,5 +1,7 @@
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Button, ScrollView, Text } from "react-native";
+import PokemonCard from "../components/PokemonCard";
 
 export default function Index() {
   const [results, setResults] = useState<any[]>([]);
@@ -22,17 +24,26 @@ export default function Index() {
     //guarda esto en memoria
   }; //esto es una funcion flecha,
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <ScrollView>
+      <Button
+        title="newscreen"
+        onPress={() => router.push("/newscreen")}
+      ></Button>
+      <Button title="pokemon" onPress={() => router.push("/pokemon")}></Button>
+      <Button
+        title="Dynamic route"
+        onPress={() => router.push("/pokemon/[name]")}
+      ></Button>
+
       {results.map((pokemon) => (
-        <Text key={pokemon.name}> {pokemon.name} </Text>
+        // <Text key={pokemon.name}> {pokemon.name} </Text>
+        <PokemonCard
+          key={pokemon.name}
+          name={pokemon.name}
+          url={pokemon.url}
+        ></PokemonCard>
       ))}
       <Text>Oliolioliolio</Text>
-    </View>
+    </ScrollView>
   );
 }
