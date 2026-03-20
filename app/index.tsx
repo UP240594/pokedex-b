@@ -1,10 +1,15 @@
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Button, ScrollView, Text } from "react-native";
+import { Alert, Button, ScrollView, Text } from "react-native";
 import PokemonCard from "../components/PokemonCard";
 
+interface Pokemon {
+  name: string;
+  url: string;
+}
+
 export default function Index() {
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<Pokemon[]>([]);
 
   useEffect(() => {
     //Siempre se va a reproducir cuando el componente entre por primera vez
@@ -13,14 +18,20 @@ export default function Index() {
   }, []);
 
   const getPokemons = async () => {
-    const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
-    const response = await fetch(URL, {
-      method: "GET",
-    }); //Esto es un request
-    console.log(response);
-    const data = await response.json();
-    setResults(data.results);
-    console.log(data);
+    try {
+      const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
+      const response = await fetch(URL, {
+        method: "GET",
+      }); //Esto es un request
+      console.log(response);
+      const data = await response.json();
+      setResults(data.results);
+      console.log(data);
+    } catch (error) {
+      Alert.alert(`Ocurrio un error al traer la api ${error}`);
+      window.alert(`Ocurrio un error al traer la api ${error}`);
+    }
+
     //guarda esto en memoria
   }; //esto es una funcion flecha,
   return (
